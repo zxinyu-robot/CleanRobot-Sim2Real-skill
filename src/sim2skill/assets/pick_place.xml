@@ -1,0 +1,65 @@
+<mujoco model="sim2skill_pick_place">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast"/>
+
+  <visual>
+    <headlight ambient="0.45 0.45 0.45" diffuse="0.8 0.8 0.8"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="135" elevation="-25"/>
+  </visual>
+
+  <default>
+    <joint damping="35" armature="0.02"/>
+    <geom condim="4" friction="1.2 0.01 0.001" solref="0.008 1"/>
+    <position kp="500" kv="45"/>
+  </default>
+
+  <asset>
+    <texture name="ground" type="2d" builtin="checker" width="256" height="256"
+             rgb1="0.12 0.14 0.18" rgb2="0.18 0.21 0.25"/>
+    <material name="ground" texture="ground" texrepeat="4 4" reflectance="0.15"/>
+    <material name="robot" rgba="0.15 0.45 0.8 1"/>
+    <material name="object" rgba="0.92 0.38 0.18 1"/>
+    <material name="target" rgba="0.15 0.85 0.45 0.35"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 -0.4 1.2" dir="0 0.4 -1"/>
+    <geom name="floor" type="plane" size="1 1 0.05" material="ground"/>
+    <geom name="table" type="box" pos="0 0 0.05" size="0.36 0.30 0.05"
+          rgba="0.35 0.32 0.28 1"/>
+
+    <body name="gantry" pos="0 0 0.18">
+      <joint name="robot_x" type="slide" axis="1 0 0" range="-0.28 0.28"/>
+      <joint name="robot_y" type="slide" axis="0 1 0" range="-0.23 0.23"/>
+      <joint name="robot_z" type="slide" axis="0 0 1" range="-0.03 0.22"/>
+      <geom type="cylinder" size="0.018 0.10" pos="0 0 0.10"
+            material="robot" contype="0" conaffinity="0" mass="0.25"/>
+      <body name="tool" pos="0 0 0">
+        <geom name="suction_pad" type="cylinder" size="0.028 0.012"
+              material="robot" mass="0.08"/>
+        <site name="eef_site" pos="0 0 -0.012" size="0.008" rgba="1 1 1 1"/>
+      </body>
+    </body>
+
+    <body name="cube" pos="-0.13 0 0.13">
+      <freejoint name="cube_free"/>
+      <geom name="cube_geom" type="box" size="0.025 0.025 0.025"
+            material="object" mass="0.08"/>
+    </body>
+
+    <body name="goal" mocap="true" pos="0.14 0 0.103">
+      <geom name="goal_marker" type="cylinder" size="0.055 0.003"
+            material="target" contype="0" conaffinity="0"/>
+    </body>
+
+    <camera name="overview" pos="0.65 -0.70 0.62" xyaxes="0.73 0.68 0 -0.35 0.38 0.85"/>
+  </worldbody>
+
+  <actuator>
+    <position name="x_position" joint="robot_x" ctrlrange="-0.28 0.28"/>
+    <position name="y_position" joint="robot_y" ctrlrange="-0.23 0.23"/>
+    <position name="z_position" joint="robot_z" ctrlrange="-0.03 0.22"/>
+    <adhesion name="suction" body="tool" gain="35" ctrlrange="0 1"/>
+  </actuator>
+</mujoco>

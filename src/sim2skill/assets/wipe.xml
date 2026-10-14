@@ -1,0 +1,55 @@
+<mujoco model="sim2skill_wipe">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast"/>
+
+  <visual>
+    <headlight ambient="0.45 0.45 0.45" diffuse="0.8 0.8 0.8"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="140" elevation="-28"/>
+  </visual>
+
+  <default>
+    <joint damping="8" armature="0.01"/>
+    <geom condim="4" friction="1.1 0.01 0.001" solref="0.01 1"/>
+    <position kp="1800" kv="90"/>
+  </default>
+
+  <asset>
+    <texture name="ground" type="2d" builtin="checker" width="256" height="256"
+             rgb1="0.12 0.14 0.18" rgb2="0.18 0.21 0.25"/>
+    <material name="ground" texture="ground" texrepeat="4 4" reflectance="0.12"/>
+    <material name="robot" rgba="0.15 0.45 0.8 1"/>
+    <material name="surface" rgba="0.78 0.42 0.22 1"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 -0.35 1.1" dir="0 0.3 -1"/>
+    <geom name="floor" type="plane" size="1 1 0.05" material="ground"/>
+    <geom name="table" type="box" pos="0 0 0.05" size="0.34 0.26 0.05"
+          rgba="0.35 0.32 0.28 1"/>
+
+    <body name="gantry" pos="0 0 0">
+      <joint name="robot_x" type="slide" axis="1 0 0" range="-0.26 0.26"/>
+      <joint name="robot_y" type="slide" axis="0 1 0" range="-0.20 0.20"/>
+      <joint name="robot_z" type="slide" axis="0 0 1" range="0.10 0.32"/>
+      <geom type="cylinder" size="0.016 0.08" pos="0 0 0.10"
+            material="robot" contype="0" conaffinity="0" mass="0.2"/>
+      <geom name="pad" type="cylinder" size="0.02 0.01"
+            material="robot" mass="0.06"/>
+      <site name="eef_site" pos="0 0 -0.01" size="0.006" rgba="1 1 1 1"/>
+    </body>
+
+    <body name="surface" mocap="true" pos="0.0 0.0 0.104">
+      <geom name="surface_geom" type="box" size="0.08 0.06 0.004"
+            material="surface" mass="0.4"/>
+    </body>
+
+    <camera name="overview" pos="0.62 -0.68 0.58" xyaxes="0.74 0.67 0 -0.33 0.36 0.87"/>
+  </worldbody>
+
+  <actuator>
+    <position name="x_position" joint="robot_x" ctrlrange="-0.26 0.26"/>
+    <position name="y_position" joint="robot_y" ctrlrange="-0.20 0.20"/>
+    <position name="z_position" joint="robot_z" ctrlrange="0.10 0.32"/>
+  </actuator>
+</mujoco>
