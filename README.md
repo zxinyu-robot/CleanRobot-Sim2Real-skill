@@ -1,8 +1,18 @@
-# 复合清洁机器人sim2real skill
+# CleanRobot Sim2Real Skill：复合清洁机器人
 
-一个面向具身操作岗位的 **simulation-first、real-ready** 练习仓库。它承接既有复合清洁机器人项目中的真实系统集成经验，探索如何把硬编码的工具操作与清洁轨迹逐步升级为可学习、可评测的自适应操作能力。
+复合清洁机器人平台（移动底盘 + xArm 机械臂 + RealSense 深度相机 + 清洁执行器）的操作技能学习与评测仓库，采用 **simulation-first、real-ready** 路线。
 
-目标不是在当前没有硬件的情况下包装“已完成 Sim-to-Real”，而是持续提供可运行、可测量、可解释的工作证据。
+它和另外两个腿式平台的仓库并列，各对应一个独立平台：
+
+| 平台 | 仓库 | 重点 | 当前验证程度 |
+|---|---|---|---|
+| Unitree Go2 四足 | [quadruped-crossfloor-nav-ws](https://github.com/zxinyu-robot/quadruped-crossfloor-nav-ws) | 端侧自主导航闭环（定位、规划、行为树编排、安全执行） | 云端仿真跨楼层闭环 11/11；真机在线建图与规划 |
+| Unitree G1/H2 双足 | [legged-navigation-runtime](https://github.com/zxinyu-robot/legged-navigation-runtime) | 端侧自主导航闭环中的定位失效恢复 | 脱敏重构，状态机与单元测试 |
+| 复合清洁机器人 | 本仓库 | 移动操作：工具拾放与表面清洁 | MuJoCo 仿真，尚未上真机 |
+
+原工程是 ROS1 真机系统（xArm、RealSense、目标检测、TF 坐标变换、移动底盘与清洁执行器），任务流程和机械臂轨迹主要靠固定规则与点位。本仓库不替代原工程，而是在仿真中补上"可学习、可评测"这一层：把硬编码的工具操作与清洁轨迹，逐步升级为带安全约束的自适应操作能力。
+
+目标不是在当前没有硬件的情况下包装"已完成 Sim-to-Real"，而是持续提供可运行、可测量、可解释的工作证据。
 
 当前版本包含两个可复现任务：
 
@@ -18,8 +28,6 @@
 - 有界残差策略接口（结构化修正与 NumPy MLP）
 
 ## 为什么这样选
-
-既有工程已经涉及 ROS1、xArm、RealSense、目标检测、TF 坐标变换、移动底盘和清洁执行器，但任务流程和机械臂轨迹主要依赖固定规则与点位。
 
 当前开发机是 Intel i5 / 8GB 的 macOS，适合原生 MuJoCo CPU 仿真，不适合本地训练视觉 Transformer，也无法重新验证真实机器人部署。因此第一阶段优先打通学习侧的工程闭环；视觉模仿学习训练预留给后续 Linux/GPU 环境，真机复测则明确列为未来验证项。
 
