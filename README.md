@@ -6,7 +6,7 @@
 
 | 平台 | 仓库 | 重点 | 当前验证程度 |
 |---|---|---|---|
-| Unitree Go2 四足 | [MotionSLAM_ws](https://github.com/zxinyu-robot/MotionSLAM_ws) | 端侧自主导航闭环（定位、规划、行为树编排、安全执行） | 云端仿真跨楼层闭环 11/11；真机在线建图与规划 |
+| Unitree Go2 四足 | [quadruped-crossfloor-nav-ws](https://github.com/zxinyu-robot/quadruped-crossfloor-nav-ws) | 端侧自主导航闭环（定位、规划、行为树编排、安全执行） | 云端仿真跨楼层闭环 11/11；真机在线建图与规划 |
 | Unitree G1/H2 双足 | [legged-navigation-runtime](https://github.com/zxinyu-robot/legged-navigation-runtime) | 端侧自主导航闭环中的定位失效恢复 | 脱敏重构，状态机与单元测试 |
 | 复合清洁机器人 | 本仓库 | 移动操作：工具拾放与表面清洁 | MuJoCo 仿真，尚未上真机 |
 
