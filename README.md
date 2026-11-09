@@ -1,3 +1,5 @@
+> **本仓库已并入 [embodied-learning-baselines-](https://github.com/zxinyu-robot/embodied-learning-baselines-)（目录 `cleanrobot_sim2real/`），此处只读归档，后续维护在新仓库进行。**
+
 # CleanRobot Sim2Real Skill：复合清洁机器人
 
 复合清洁机器人平台（移动底盘 + xArm 机械臂 + RealSense 深度相机 + 清洁执行器）的操作技能学习与评测仓库，采用 **simulation-first、real-ready** 路线。
